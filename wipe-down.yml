@@ -1,0 +1,20 @@
+---
+platform: linux
+
+image_resource:
+  type: docker-image
+  source:
+    repository: mattsday/le-pcf-on-gcp-base
+    tag: "latest"
+
+inputs:
+- name: git-pipeline
+
+params:
+  PAS_ADMIN_USER: {{PAS_ADMIN_USER}}
+  PAS_ADMIN_PW: {{PAS_ADMIN_PW}}
+  PAS_SAFE_ORGS: {{PAS_SAFE_ORGS}}
+  PAS_SAFE_SPACES: {{PAS_SAFE_SPACES}}
+
+run:
+  path: git-pipeline/wipe-down.sh

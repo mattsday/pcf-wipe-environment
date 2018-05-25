@@ -1,0 +1,27 @@
+---
+jobs:
+- name: wipe-environment
+  plan:
+  - get: git-pipeline
+  - get: schedule
+    trigger: true
+  - task: wipe-down
+    file: git-pipeline/wipe-down.yml
+    params:
+      PAS_ADMIN_USER: {{PAS_ADMIN_USER}}
+      PAS_ADMIN_PW: {{PAS_ADMIN_PW}}
+      PAS_SAFE_ORGS: {{PAS_SAFE_ORGS}}
+      PAS_SAFE_SPACES: {{PAS_SAFE_SPACES}}
+resources:
+- name: git-pipeline
+  type: git
+  source:
+    branch: master
+    uri: https://github.com/mattsday/pcf-wipe-environment
+- name: schedule
+  type: time
+  source:
+    interval: 24h
+    start: "01:00 AM"
+    stop: "06:00 AM"
+    days: [Saturday]
