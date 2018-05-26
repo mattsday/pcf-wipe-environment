@@ -15,6 +15,7 @@ params:
   PAS_ADMIN_PW:
   PAS_SAFE_ORGS:
   PAS_SAFE_SPACES:
+  PAS_API_ADDRESS:
 
 run:
   path: git-pipeline/wipe-down.sh

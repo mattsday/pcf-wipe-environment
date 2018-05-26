@@ -1,12 +1,13 @@
 #!/bin/bash
 # Input checking
 if [ -z ${PAS_ADMIN_USER} ]; then echo NO PAS_ADMIN_USER; exit 1; fi
-if [ -z ${PAS_ADMIN_PW} ]; then echo NO_PAS_ADMIN_PW; exit 1; fi
-if [ -z ${PAS_SAFE_ORGS} ]; then echo NO_PAS_SAFE_ORGS; exit 1; fi
-if [ -z ${PAS_SAFE_SPACES} ]; then echo NO_PAS_SAFE_SPACES; exit 1; fi
+if [ -z ${PAS_ADMIN_PW} ]; then echo NO PAS_ADMIN_PW; exit 1; fi
+if [ -z ${PAS_SAFE_ORGS} ]; then echo NO PAS_SAFE_ORGS; exit 1; fi
+if [ -z ${PAS_SAFE_SPACES} ]; then echo NO PAS_SAFE_SPACES; exit 1; fi
+if [ -z ${PAS_API_ADDRESS} ]; then echo NO PAS_API_ADDRESS; exit 1; fi
 
 # Login to CF in the system org/space
-cf login -u ${PAS_ADMIN_USER} -p ${PAS_ADMIN_PW} -o system -s system
+cf login -a ${PAS_API_ADDRESS} -u ${PAS_ADMIN_USER} -p ${PAS_ADMIN_PW} -o system -s system 
 
 CF_ORGS=$(cf orgs | tail +4)
 PAS_SAFE_ORGS=$(echo ${PAS_SAFE_ORGS} | sed 's/,/ /g')

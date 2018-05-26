@@ -12,6 +12,7 @@ jobs:
       PAS_ADMIN_PW: {{PAS_ADMIN_PW}}
       PAS_SAFE_ORGS: {{PAS_SAFE_ORGS}}
       PAS_SAFE_SPACES: {{PAS_SAFE_SPACES}}
+      PAS_API_ADDRESS: {{PAS_API_ADDRESS}}
 resources:
 - name: git-pipeline
   type: git
