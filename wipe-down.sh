@@ -36,6 +36,7 @@ for org in ${CF_ORGS}; do
         for app in $CF_APPS; do
 			case $app in
 				*-keep)
+					echo App $app in space $space and org $org is safe
 					;;
 				*)
 					cf delete -f $app
@@ -47,6 +48,7 @@ for org in ${CF_ORGS}; do
 		for service in $CF_SERVICES; do
 			case $service in
 				*-keep)
+					echo Service $service in space $space and org $org is safe
 					;;
 				*)
 					cf delete-service -f $service
@@ -54,11 +56,14 @@ for org in ${CF_ORGS}; do
 			esac
 		done
 		echo Clearing up routes
-		cf routes | tail -n +4 | while read -r line; do
-			ROUTE_APP=$(echo $line | awk '{print $4}')
-			if [ -z "$ROUTE_APP" ]; then 
-				cf delete-route -f --hostname $(echo $line | awk '{ print $2 }') $(echo $line | awk '{ print $3 }')
-			fi
-		done
+		ROUTES=$(cf routes | tail -n +4)
+		if [ "${ROUTES}" != "No routes found" ]; then
+			cf routes | tail -n +4 | while read -r line; do
+				ROUTE_APP=$(echo $line | awk '{print $4}')
+				if [ -z "$ROUTE_APP" ]; then 
+					cf delete-route -f --hostname $(echo $line | awk '{ print $2 }') $(echo $line | awk '{ print $3 }')
+				fi
+			done
+		fi
     done
 done
