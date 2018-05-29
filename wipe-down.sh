@@ -39,7 +39,7 @@ for org in ${CF_ORGS}; do
         				echo App "${app}" in space "${space}" and org "${org}" is safe
 			        	;;
         			*)
-	        			cf delete -f "${app}"
+	        			cf delete -r -f "${app}"
 		        	        ;;
         		esac
                 done
@@ -56,15 +56,7 @@ for org in ${CF_ORGS}; do
         		esac
 	        done
 	        echo Clearing up routes
-	        ROUTES=$(cf routes | tail -n +4)
-	        if [ "${ROUTES}" != "No routes found" ]; then
-		        cf routes | tail -n +4 | while read -r line; do
-			        ROUTE_APP=$(echo "${line}" | awk '{print $4}')
-	        		if [ -z "${ROUTE_APP}" ]; then 
-        				cf delete-route -f --hostname "$(echo "${line}" | awk '{ print $2 }')" "$(echo "${line}" | awk '{ print $3 }')"
-			        fi
-		        done
-	        fi
+			cf delete-orphaned-routes -f
         done
 done
 
